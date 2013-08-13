@@ -46,6 +46,47 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 "解决console输出乱码
 language messages zh_cn.utf-8
+""""""""""""""""""""""""""""""""""""""""""""""""
 
 set guifont=Monaco:h12:cANSI
 colorscheme torte
+"syntax high light
+syntax on
+"let the tabstop equal 4
+set tabstop=4
+"high light the search
+set hlsearch
+"set the c language indent format 
+set cindent
+"set the indent width
+set shiftwidth=4
+"使得按退格键时可以一次删掉 4 个空格
+set softtabstop=4
+"用空格键替换制表符 
+set expandtab 
+"很多插件都会要求的配置检测文件类型 
+filetype on 
+filetype plugin on 
+filetype indent on
+" Sets how many lines of history VIM has to remember
+set history=700
+" Ignore case when searching
+set ignorecase
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
+" Be smart when using tabs ;)
+set smarttab
+"share the clipboard with windows
+set clipboard=unnamed
+"突出显示当前行
+set cursorline
+"自动切换当前目录为当前文件所在的目录
+set autochdir 
+set backspace=indent,eol,start

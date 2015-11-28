@@ -1,3 +1,7 @@
+"another vim plugin manager
+call plug#begin()
+call plug#end()
+"end
 "*****************************************************************************
 "" NeoBundle core
 "*****************************************************************************
@@ -28,20 +32,21 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "" NeoBundle install packages
 "*****************************************************************************
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tpope/vim-commentary'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'scrooloose/syntastic'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'sheerun/vim-polyglot'
-NeoBundle 'vim-scripts/grep.vim'
-NeoBundle 'vim-scripts/CSApprox'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'vim-scripts/ShaderHighLight'
 
 "" Snippets
-NeoBundle "MarcWeber/vim-addon-mw-utils"
-NeoBundle "tomtom/tlib_vim"
-NeoBundle "honza/vim-snippets"
-NeoBundle 'garbas/vim-snipmate'
+"Track the engine
+NeoBundle 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"Snippets are separated from the engine
+NeoBundle 'honza/vim-snippets'
 
 "" Color
 NeoBundle 'tomasr/molokai'
@@ -49,13 +54,8 @@ NeoBundle 'tomasr/molokai'
 "" Custom bundles
 
 "" Python Bundle
-NeoBundle "davidhalter/jedi-vim"
-NeoBundle "scrooloose/syntastic"
-NeoBundle "majutsushi/tagbar"
-NeoBundle "Yggdroot/indentLine"
 
 "" html css
-NeoBundle "mattn/emmet-vim"
 NeoBundle "Valloric/YouCompleteMe"
 
 call neobundle#end()
@@ -70,6 +70,9 @@ NeoBundleCheck
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
+" back to english input when you switch to normal mod
+au InsertEnter * set noimdisable
+au InsertLeave * set imdisable
 "" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
@@ -333,7 +336,7 @@ vmap < <gv
 vmap > >gv
 
 "" Open current line on GitHub
-noremap ,o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
+"" noremap ,o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
 "" Custom configs
 
 " vim-python
@@ -352,7 +355,7 @@ let g:jedi#show_call_signatures = "0"
 let g:jedi#completions_command = "<C-Space>"
 
 " syntastic
-let g:syntastic_python_checkers=['python', 'flake8']
+"let g:syntastic_python_checkers=['python', 'flake8']
 
 " vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
@@ -368,3 +371,7 @@ if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 au BufNewFile,BufRead *.html set filetype=htmldjango
+set clipboard+=unnamed
+set noimdisable
+autocmd! InsertLeave * set imdisable|set iminsert=0
+autocmd! InsertEnter * set noimdisable|set iminsert=0

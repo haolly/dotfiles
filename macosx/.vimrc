@@ -1,15 +1,14 @@
-"another vim plugin manager
-call plug#begin()
-call plug#end()
-"end
 "*****************************************************************************
 "" NeoBundle core
 "*****************************************************************************
-if has('vim_starting')
-  set nocompatible               " Be iMproved
 
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+if has('vim_starting')
+	if &compatible
+  		set nocompatible               " Be iMproved
+	endif
+
+  	" Required:
+  	set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 let vundle_readme=expand('~/.vim/bundle/neobundle.vim/README.md')
@@ -32,18 +31,33 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "" NeoBundle install packages
 "*****************************************************************************
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline'
+
+let g:airline_theme = 'powerlineish'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'vim-scripts/ShaderHighLight'
 
 "" Snippets
 "Track the engine
 NeoBundle 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<nop>"
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        return "\<CR>"
+    endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "Snippets are separated from the engine
 NeoBundle 'honza/vim-snippets'
@@ -51,12 +65,12 @@ NeoBundle 'honza/vim-snippets'
 "" Color
 NeoBundle 'tomasr/molokai'
 
-"" Custom bundles
+NeoBundle 'Valloric/YouCompleteMe'
+let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/.ycm_extra_conf.py"
 
-"" Python Bundle
-
-"" html css
-NeoBundle "Valloric/YouCompleteMe"
+"Search file
+NeoBundle 'ctrlpvim/ctrlp.vim'
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 call neobundle#end()
 
@@ -166,9 +180,6 @@ endif
 set gcr=a:blinkon0
 set scrolloff=3
 
-"" Status bar
-set laststatus=2
-
 "" allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -180,13 +191,6 @@ set title
 set titleold="Terminal"
 set titlestring=%F
 
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\ %{fugitive#statusline()}
-
-let g:airline_theme = 'powerlineish'
-let g:airline_enable_branch = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
 
 "*****************************************************************************
 "" Abbreviations
@@ -212,10 +216,6 @@ let g:NERDTreeWinSize = 20
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 noremap <F3> :NERDTreeToggle<CR>
-
-" grep.vim
-nnoremap <silent> <leader>f :Rgrep<CR>
-let Grep_Default_Options = '-IR'
 
 "*****************************************************************************
 "" Functions
@@ -304,9 +304,6 @@ let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_auto_loc_list=1
 let g:syntastic_aggregate_errors = 1
 
-" vim-airline
-let g:airline_enable_syntastic = 1
-
 "" Remove trailing whitespace on <leader>S
 nnoremap <leader>:call TrimWhiteSpace()<cr>:let @/=''<CR>
 
@@ -319,15 +316,6 @@ noremap XX "+x<CR>
 vmap <C-x> :!pbcopy<CR>
 vmap <C-c> :w !pbcopy<CR><CR>
 
-"" Buffer nav
-noremap ,z :bp<CR>
-noremap ,q :bp<CR>
-noremap ,x :bn<CR>
-noremap ,w :bn<CR>
-
-"" Close buffer
-noremap ,c :bd<CR>
-
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
 
@@ -339,39 +327,14 @@ vmap > >gv
 "" noremap ,o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
 "" Custom configs
 
-" vim-python
-autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
-    \ formatoptions+=croq softtabstop=4 smartindent
-    \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-
-" jedi-vim
-let g:jedi#popup_on_dot = 0
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>d"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#show_call_signatures = "0"
-let g:jedi#completions_command = "<C-Space>"
 
 " syntastic
 "let g:syntastic_python_checkers=['python', 'flake8']
 
 " vim-airline
-let g:airline#extensions#virtualenv#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
+"let g:airline#extensions#virtualenv#enabled = 1
+"let g:airline#extensions#tagbar#enabled = 1
 
 " Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-
-
-"" Include user's local vim config
-if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
-endif
-au BufNewFile,BufRead *.html set filetype=htmldjango
-set clipboard+=unnamed
-set noimdisable
-autocmd! InsertLeave * set imdisable|set iminsert=0
-autocmd! InsertEnter * set noimdisable|set iminsert=0
+"nmap <silent> <F4> :TagbarToggle<CR>
+"let g:tagbar_autofocus = 1

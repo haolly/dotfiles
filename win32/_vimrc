@@ -30,7 +30,8 @@ endfunction
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" https://tuxproject.de/projects/vim/
+"从下面这个地址下载vim，不要从官网下载！！！
+"https://tuxproject.de/projects/vim/
 "need install git for windows first!
 call plug#begin('~/.vim/plugged')
 
@@ -184,3 +185,11 @@ endif
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+"===============================
+if has('win32')
+    set imdisable
+    set imactivatekey=D-space
+    set imsearch=0
+    autocmd InsertLeave * set imdisable
+    autocmd InsertEnter * set noimdisable
+endif

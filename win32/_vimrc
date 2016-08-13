@@ -30,7 +30,7 @@ endfunction
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" https://bintray.com/veegee/generic/vim_x64
+" https://tuxproject.de/projects/vim/
 "need install git for windows first!
 call plug#begin('~/.vim/plugged')
 

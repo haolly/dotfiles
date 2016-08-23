@@ -40,6 +40,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/neocomplete.vim'
 Plug 'sickill/vim-monokai'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -70,7 +72,7 @@ language messages zh_cn.utf-8
 """"""""""""""""""""""""""""""""""""""""""""""""
 
 set guifont=Monaco:h12:cANSI
-colorscheme torte
+"colorscheme torte
 colorscheme monokai
 "syntax high light
 syntax on
@@ -94,6 +96,7 @@ filetype indent on
 set history=700
 " Ignore case when searching
 set ignorecase
+set smartcase
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
@@ -193,3 +196,6 @@ if has('win32')
     autocmd InsertLeave * set imdisable
     autocmd InsertEnter * set noimdisable
 endif
+
+"===================vim-airline==============================
+set laststatus=2

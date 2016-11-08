@@ -42,9 +42,13 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'sickill/vim-monokai'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+"Plug 'Yggdroot/indentLine'
+"Plug 'nathanaelkane/vim-indent-guides'
 
 " Add plugins to &runtimepath
 call plug#end()
+
+"Usage PlugInstall/Update/Clean/Upgrade/Status/Snapshot
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "move line down/up
 nnoremap <S-Up> :m-2<CR>
@@ -70,10 +74,10 @@ source $VIMRUNTIME/menu.vim
 "解决console输出乱码
 language messages zh_cn.utf-8
 """"""""""""""""""""""""""""""""""""""""""""""""
-
+set nu
 set guifont=Monaco:h12:cANSI
 "colorscheme torte
-colorscheme monokai
+colorscheme desert
 "syntax high light
 syntax on
 "let the tabstop equal 4
@@ -95,7 +99,7 @@ filetype indent on
 " Sets how many lines of history VIM has to remember
 set history=700
 " Ignore case when searching
-set ignorecase
+" set ignorecase
 set smartcase
 " No annoying sound on errors
 set noerrorbells
@@ -106,6 +110,7 @@ set tm=500
 set nobackup
 set nowb
 set noswapfile
+set noundofile
 " Be smart when using tabs ;)
 set smarttab
 "share the clipboard with windows
@@ -197,5 +202,22 @@ if has('win32')
     autocmd InsertEnter * set noimdisable
 endif
 
+if has("gui_running")
+  " GUI is running or is about to start.
+  " Maximize gvim window (for an alternative on Windows, see simalt below).
+  set lines=999 columns=999
+else
+  " This is console Vim.
+  if exists("+lines")
+    set lines=50
+  endif
+  if exists("+columns")
+    set columns=100
+  endif
+endif
+
 "===================vim-airline==============================
 set laststatus=2
+
+"-----------------------------最常用的命令
+" set fileencoding=utf-8

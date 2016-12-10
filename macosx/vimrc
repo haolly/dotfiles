@@ -2,29 +2,31 @@ set nocompatible               " Be iMproved
 "******************vim-plug start**************************************
 call plug#begin('~/.vim/plugged')
 "vim-snippets depends on ultisnips
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "useless in terminal vim with dark background
 " 'nathanaelkane/vim-indent-guides'
 "Do not use this
-" 'Raimondi/delimitMate' 
+" 'Raimondi/delimitMate'
 Plug 'jiangmiao/auto-pairs'
 Plug 'majutsushi/tagbar'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
 Plug 'tomasr/molokai'
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'tpope/vim-surround'
 "for input method
-Plug 'CodeFalling/fcitx-vim-osx'
+"Plug 'CodeFalling/fcitx-vim-osx'
+"Plug 'ybian/smartim'
+Plug 'mileszs/ack.vim'
 
 call plug#end()
 "******************vim-plug end **************************************
 
 " Plugin vim-airline setting -----------------------{{{
-set laststatus=2
 let g:airline_theme = 'powerlineish'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -36,22 +38,6 @@ let g:airline#extensions#tagbar#enabled = 1
 nmap <F9> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
-
-"" Snippets
-"Track the engine
-"let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsExpandTrigger="<nop>"
-let g:ulti_expand_or_jump_res = 0
-function ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
 let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
@@ -65,9 +51,10 @@ set runtimepath^=~/.vim/plugged/ctrlp.vim
 "group help those autocmd don't source again, see h:autocmd-groups
 augroup myautocmd
 	autocmd!
+"set imdisable
 " back to english input when you switch to normal mod
-autocmd InsertEnter * set noimdisable
-autocmd InsertLeave * set imdisable
+"autocmd InsertEnter * set noimdisable
+"autocmd InsertLeave * set imdisable
 augroup end
 
 "" allow plugins by file type
@@ -80,6 +67,7 @@ set fileencoding=utf-8
 set fileencodings=utf-8
 
 colorscheme molokai
+set laststatus=2
 
 "" Fix backspace indent
 set backspace=indent,eol,start
@@ -93,6 +81,9 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
+set shiftround
+set display=lastline
+
 
 " No annoying sound on errors
 set noerrorbells
@@ -111,10 +102,24 @@ set incsearch
 set ignorecase
 set smartcase
 
+set ttyfast
+set lazyredraw
+
+" Split new panel in right and below
+set splitbelow
+set splitright
+
 "" Encoding
 set bomb
-set ttyfast
 set binary
+
+set list                   " Show non-printable characters.
+if has('multi_byte') && &encoding ==# 'utf-8'
+  let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
+else
+  let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
+endif
+
 
 "" Directories for swp files
 set nobackup
@@ -122,6 +127,7 @@ set noswapfile
 
 set fileformats=unix,dos,mac
 set showcmd
+set showmode
 
 "命令行模式快捷鍵， ctrl-a/e 跳轉到行首行尾
 cnoremap <C-a> <Home>
@@ -187,6 +193,9 @@ cab wQ wq
 cab WQ wq
 cab W w
 cab Q q
+
+" markdown
+let g:vim_markdown_folding_disabled = 1
 
 "" NERDTree configuration {{{
 let NERDTreeChDirMode=2
@@ -342,3 +351,6 @@ augroup filetype_vim
 	autocmd FileType vim setlocal foldmethod=marker
 augroup end
 " }}}
+
+" when paste the text that's already indented, you need this!
+set pastetoggle=<F4>

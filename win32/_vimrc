@@ -233,3 +233,7 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " See :help v_ip (vip = visual inner paragraph).
 " In general, use :help v_<whatever> for help on <whatever> in visual mode.
 " Or :help c_<whatever> for the command line, or :help i_<whatever> for insert mode.
+" undo/redo branch-wise, Note, <ESC> create a node in undo tree
+" u / <C-r>
+" undo/redo time-wise
+" g- / g+

@@ -47,9 +47,25 @@ Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-syntastic/syntastic'
+Plug 'Yggdroot/indentLine'
 
 "Plug 'Yggdroot/indentLine'
 "Plug 'nathanaelkane/vim-indent-guides'
+
+"vim-lua
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-lua-ftplugin'
+Plug 'terryma/vim-multiple-cursors'
+"Plug 'xolox/vim-misc'
+" lua
+"" Lua Bundle
+"Plug 'xolox/vim-lua-ftplugin'
+"Plug 'xolox/vim-lua-inspect'
+"Plug 'xolox/vim-easytags'
+"Plug 'majutsushi/tagbar'
+
+"CSV file, useful in ktv
+Plug 'chrisbra/csv.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -106,7 +122,7 @@ filetype indent on
 " Sets how many lines of history VIM has to remember
 set history=700
 " Ignore case when searching
-" set ignorecase
+set ignorecase
 set smartcase
 " No annoying sound on errors
 set noerrorbells
@@ -121,7 +137,7 @@ set noundofile
 " Be smart when using tabs ;)
 set smarttab
 "share the clipboard with windows
-set clipboard=unnamed
+"set clipboard=unnamed
 "突出显示当前行
 set cursorline
 "自动切换当前目录为当前文件所在的目录
@@ -145,6 +161,7 @@ set showmode
 set showcmd
 
 set ttyfast
+"set binary
 set lazyredraw
 set wrapscan
 
@@ -176,6 +193,14 @@ else
     set columns=100
   endif
 endif
+
+"-------------------------------IndentLine ----------------{{{
+let g:indentLine_enabled = 1
+let g:indentLine_concealcursor = 0
+let g:indentLine_char = '┆'
+let g:indentLine_faster = 1
+"-----------------------}}}
+
 
 "-------------------------neocomplete-------------- {{{
 "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
@@ -293,16 +318,39 @@ else
 endif
 
 set wildmode=list:longest,list:full
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store,*.o,*.obj,*.rbc,*.pyc,__pycache__
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|tox)$'
 let g:ctrlp_use_caching = 0
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 noremap <leader>b :CtrlPBuffer<CR>
-let g:ctrlp_map = ',e'
+let g:ctrlp_map = '<leader>e'
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_root_markers = ['.idea']
 " }}}
 
+
+"==============================NERDTree ============{{{
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 50
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+"==============}}}
+
+"=================================Autocmd Rules ==============={{{
+
+"" make/cmake
+augroup vimrc-make-cmake
+  autocmd!
+  autocmd FileType make setlocal noexpandtab
+  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+augroup END
+
+set autoread
+"=================}}}
 
 "=======================map is defined here ================={{{
 "down to the "visual" line below
@@ -331,6 +379,10 @@ nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
 
+"" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " command map
 :command WQ wq
 :command Wq wq
@@ -340,6 +392,14 @@ inoremap <S-Down> <Esc>:m+<CR>
 "Avoid the escape key
 inoremap jk <ESC>
 
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+
+"" Split
+noremap <Leader>h :<C-u>split<CR>
+noremap <Leader>v :<C-u>vsplit<CR>
+
 "}}}
 
 " F(N) 功能键绑定 {{{
@@ -347,6 +407,7 @@ inoremap jk <ESC>
 set pastetoggle=<F2>
 "=========nerdtree
 nmap <F3> :NERDTreeToggle<CR>
+
 " }}}
 
 " Virscript file settings ------------{{{
@@ -376,11 +437,13 @@ augroup end
 " zR open all fold
 " == select a block
 " vi{/va{
-" "jump to beginning of C code block ,ie, symbol '{'
+" "jump to beginning of C code block in *first column* ,ie, symbol '{'
 " [{
-" jump to end of C code block, ie, symbol '}'
+" jump to end of C code block in *first column*, ie, symbol '}'
 " ]}
 " [[ or ]] backword to '{' or forward to '}'
+" 上面的不是很好用,use below command,see http://stackoverflow.com/questions/6849679/vim-m-motion-with-c-sharp
+" [m/ ]m
 " <c-o> / <c-i> navigate jumplist
 " Navigate the folded document
 " zj/ zk move down or up to next fold

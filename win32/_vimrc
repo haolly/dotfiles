@@ -32,6 +32,7 @@ endfunction
 """"""""""""""""Plugin Start""""""""""""""""""""""""""""""""""""""{{{
 "从下面这个地址下载vim，不要从官网下载！！！
 "https://tuxproject.de/projects/vim/
+"https://bintray.com/micbou/generic/vim
 "need install git for windows first!
 call plug#begin('~/.vim/plugged')
 
@@ -48,6 +49,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-syntastic/syntastic'
 Plug 'Yggdroot/indentLine'
+"ys/ds/cs
+Plug 'tpope/vim-surround'
 
 "Plug 'Yggdroot/indentLine'
 "Plug 'nathanaelkane/vim-indent-guides'
@@ -350,6 +353,9 @@ augroup vimrc-make-cmake
 augroup END
 
 set autoread
+
+"trailing whitespace when save
+autocmd BufWritePre *.lua :%s/\s\+$//e
 "=================}}}
 
 "=======================map is defined here ================={{{
@@ -400,9 +406,14 @@ vmap > >gv
 noremap <Leader>h :<C-u>split<CR>
 noremap <Leader>v :<C-u>vsplit<CR>
 
+"U create a new change to undo tree, which contains the last line which was
+"modified to its original state, useless
+nnoremap U <nop>
+
 "}}}
 
 " F(N) 功能键绑定 {{{
+"
 " indent right when you paste external text to vim
 set pastetoggle=<F2>
 "=========nerdtree
@@ -427,7 +438,7 @@ augroup end
 " Or :help c_<whatever> for the command line, or :help i_<whatever> for insert mode.
 " undo/redo branch-wise, Note, <ESC> create a node in undo tree
 " u / <C-r>
-" undo/redo time-wise
+" undo/redo time-wiset
 " g- / g+
 " vimgrep /\<search text\>/ path/to/folder/**/* | cw
 " (cw to open the search list in window)

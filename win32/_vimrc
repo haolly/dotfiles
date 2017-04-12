@@ -37,7 +37,6 @@ endfunction
 call plug#begin('~/.vim/plugged')
 
 " Make sure you use single quotes
-
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/neocomplete.vim'
 Plug 'sickill/vim-monokai'
@@ -51,6 +50,8 @@ Plug 'vim-syntastic/syntastic'
 Plug 'Yggdroot/indentLine'
 "ys/ds/cs
 Plug 'tpope/vim-surround'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/nerdcommenter'
 
 "Plug 'Yggdroot/indentLine'
 "Plug 'nathanaelkane/vim-indent-guides'
@@ -76,6 +77,8 @@ call plug#end()
 "Usage PlugInstall/Update/Clean/Upgrade/Status/Snapshot
 """"""""""""""""""""""""""""""""""""""""""""""""""""}}}
 
+
+"""""""""""""""Basic Settings""""{{{
 """""""""""""""""""""""""""""
 "解决windows下的中文乱码问题
 """""""""""""""""""""""""""""
@@ -127,6 +130,8 @@ set history=700
 " Ignore case when searching
 set ignorecase
 set smartcase
+nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
+nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
@@ -196,6 +201,17 @@ else
     set columns=100
   endif
 endif
+
+"不换行，并且向右滚动时不自动将鼠标放在屏幕中间。see: h sidescroll
+"set nowrap
+"set sidescroll=1
+
+" 拷贝所选内容后，防止鼠标返回到所选段落的开始(first make a mark y, then yank,
+" then go to mark y)
+vnoremap y myy`y
+vnoremap Y myY`y
+
+"""""}}}
 
 "-------------------------------IndentLine ----------------{{{
 let g:indentLine_enabled = 1
@@ -280,6 +296,24 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " }}}
 
 
+"""""""""vim multiple cursors""{{{
+set selection=inclusive
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
+"}}}
+
+
 " =====================vim-syntastic ============={{{
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -355,7 +389,7 @@ augroup END
 set autoread
 
 "trailing whitespace when save
-autocmd BufWritePre *.lua :%s/\s\+$//e
+"autocmd BufWritePre *.lua :%s/\s\+$//e
 "=================}}}
 
 "=======================map is defined here ================={{{
@@ -371,7 +405,8 @@ map <C-l> <C-w>l
 
 nmap <silent> <leader>/ :nohl<CR>
 
-nmap <Tab> gt
+" <Tab> is equal <C-I>, so the jumplist is affected
+"nmap <Tab> gt
 nmap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
 
@@ -410,6 +445,7 @@ noremap <Leader>v :<C-u>vsplit<CR>
 "modified to its original state, useless
 nnoremap U <nop>
 
+
 "}}}
 
 " F(N) 功能键绑定 {{{
@@ -419,6 +455,7 @@ set pastetoggle=<F2>
 "=========nerdtree
 nmap <F3> :NERDTreeToggle<CR>
 
+nnoremap <F8> :set fenc=utf-8<CR>
 " }}}
 
 " Virscript file settings ------------{{{
@@ -426,6 +463,20 @@ augroup filetype_vim
 	autocmd!
 	autocmd FileType vim setlocal foldmethod=marker
 augroup end
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RENAME CURRENT FILE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+map <leader>r :call RenameFile()<cr>
 " }}}
 
 
@@ -455,7 +506,14 @@ augroup end
 " [[ or ]] backword to '{' or forward to '}'
 " 上面的不是很好用,use below command,see http://stackoverflow.com/questions/6849679/vim-m-motion-with-c-sharp
 " [m/ ]m
+" ===================jumplist
 " <c-o> / <c-i> navigate jumplist
+" ====================changelist
+" g; / g, 
+" :changes view changelist
+" ==============================
 " Navigate the folded document
 " zj/ zk move down or up to next fold
+" ===========================
+" use verbose map <c-i> to show which command <c-i> is mapped to
 "============= }}}

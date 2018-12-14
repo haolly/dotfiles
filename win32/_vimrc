@@ -210,6 +210,7 @@ endif
 " then go to mark y)
 vnoremap y myy`y
 vnoremap Y myY`y
+vnoremap <leader>p "_dP
 
 """""}}}
 

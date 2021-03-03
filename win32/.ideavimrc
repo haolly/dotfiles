@@ -1,0 +1,89 @@
+
+""" Map leader to space ---------------------
+let mapleader=","
+
+""" Plugins  --------------------------------
+set surround
+set multiple-cursors
+set commentary
+set argtextobj
+set easymotion
+set textobj-entire
+set ReplaceWithRegister
+set highlightedyank
+
+set sneak
+
+""" Plugin settings -------------------------
+let g:argtextobj_pairs="[:],(:),<:>"
+
+""" Common settings -------------------------
+set showmode
+set so=5
+set incsearch
+set nu
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+""" Mappings --------------------------------
+map <leader>f <Plug>(easymotion-s)
+map <leader>e <Plug>(easymotion-f)
+
+map <leader>d :action Debug<CR>
+map <leader>r :action RenameElement<CR>
+map <leader>c :action Stop<CR>
+map <leader>z :action ToggleDistractionFreeMode<CR>
+
+map <leader>s :action SelectInProjectView<CR>
+map <leader>a :action Annotate<CR>
+map <leader>h :action Vcs.ShowTabbedFileHistory<CR>
+map <S-Space> :action GotoNextError<CR>
+
+map <leader>b :action ToggleLineBreakpoint<CR>
+map <leader>o :action FileStructurePopup<CR>
+
+nmap <silent> <leader>/ :nohl<CR>
+" <Tab> is equal <C-I>, so the jumplist is affected
+"nmap <Tab> gt
+nmap <S-Tab> gT
+nnoremap <silent> <S-t> :tabnew<CR>
+" command map
+:command WQ wq
+:command Wq wq
+:command W w
+:command Q q
+
+"Avoid the escape key
+inoremap jk <ESC>
+
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+
+"" Split
+noremap <Leader>h :<C-u>split<CR>
+noremap <Leader>v :<C-u>vsplit<CR>
+
+"U create a new change to undo tree, which contains the last line which was
+"modified to its original state, useless
+nnoremap U <nop>
+
+noremap YY "+y<CR>
+noremap P "+gP<CR>
+noremap XX "+x<CR>
+
+vnoremap y myy`y
+vnoremap Y myY`y
+
+nnoremap <leader>d "_d
+xnoremap <leader>d "_d
+xnoremap <leader>p "_dP
+vnoremap <leader>p "_dP
+
+set clipboard+=unnamed
+
+"set nokeep-english-in-normal-and-restore-in-insert
+set keep-english-in-normal

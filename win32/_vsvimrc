@@ -11,7 +11,15 @@ nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 " then go to mark y)
 vnoremap y myy`y
 vnoremap Y myY`y
+
+nnoremap <leader>d "_d
+xnoremap <leader>d "_d
+xnoremap <leader>p "_dP
 vnoremap <leader>p "_dP
+
+
+
+
 nmap <silent> <leader>/ :nohl<CR>
 noremap YY "+y<CR>
 noremap P "+gP<CR>

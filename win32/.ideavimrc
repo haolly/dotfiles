@@ -11,6 +11,7 @@ set easymotion
 set textobj-entire
 set ReplaceWithRegister
 set highlightedyank
+set NERDTree
 
 set sneak
 
@@ -22,6 +23,9 @@ set showmode
 set so=5
 set incsearch
 set nu
+""" use \c or \C to make it case insensitive or sensitive
+set ignorecase
+set smartcase
 
 """ Idea specific settings ------------------
 set ideajoin
@@ -86,4 +90,4 @@ vnoremap <leader>p "_dP
 set clipboard+=unnamed
 
 "set nokeep-english-in-normal-and-restore-in-insert
-set keep-english-in-normal
+"set keep-english-in-normal

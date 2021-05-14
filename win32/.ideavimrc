@@ -11,7 +11,7 @@ set easymotion
 set textobj-entire
 set ReplaceWithRegister
 set highlightedyank
-set NERDTree
+"set NERDTree
 
 set sneak
 
@@ -26,6 +26,8 @@ set nu
 """ use \c or \C to make it case insensitive or sensitive
 set ignorecase
 set smartcase
+""nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
+""nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 
 """ Idea specific settings ------------------
 set ideajoin
@@ -44,15 +46,19 @@ map <leader>z :action ToggleDistractionFreeMode<CR>
 map <leader>s :action SelectInProjectView<CR>
 map <leader>a :action Annotate<CR>
 map <leader>h :action Vcs.ShowTabbedFileHistory<CR>
-map <S-Space> :action GotoNextError<CR>
+map <leader><space> :action GotoNextError<CR>
 
 map <leader>b :action ToggleLineBreakpoint<CR>
 map <leader>o :action FileStructurePopup<CR>
 
+nnoremap <C-]> :action GotoDeclaration<CR>
+nnoremap <C-o> :action Back<CR>
+nnoremap <C-i> :action Forward<CR>
+
 nmap <silent> <leader>/ :nohl<CR>
 " <Tab> is equal <C-I>, so the jumplist is affected
 "nmap <Tab> gt
-nmap <S-Tab> gT
+"nmap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
 " command map
 :command WQ wq
@@ -86,6 +92,9 @@ nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
 vnoremap <leader>p "_dP
+
+"Search Whole word
+nnoremap <leader>/ /\<\><left><left>
 
 set clipboard+=unnamed
 

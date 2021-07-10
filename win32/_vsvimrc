@@ -5,8 +5,6 @@ set shiftwidth=4
 set softtabstop=4
 set ignorecase
 set smartcase
-nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
-nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
 " 拷贝所选内容后，防止鼠标返回到所选段落的开始(first make a mark y, then yank,
 " then go to mark y)
 vnoremap y myy`y
